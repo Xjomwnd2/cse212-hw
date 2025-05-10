@@ -44,45 +44,52 @@ namespace DynamicArrays
         public static void RotateListRight<T>(List<T> data, int amount)
         {
             // PLAN:
-            // 1. Validate inputs - ensure data is not null and amount is valid
-            // 2. Handle edge cases (no rotation needed or full rotation)
-            // 3. Handle cases where amount > data.Count by using modulo
-            // 4. Split the list into two parts:
-            //    - The part that needs to move from the end to the beginning
-            //    - The part that will remain at the beginning but shift right
-            // 5. Create new list with parts in correct order
-            // 6. Update the original list with the rotated elements
+            // 1. Check for null or empty list - return if no action needed
+            // 2. Create a temporary copy of the list to avoid issues with in-place operations
+            // 3. Clear the original list
+            // 4. Add elements back in the rotated order:
+            //    - Start with elements from (length-amount) to the end
+            //    - Then add elements from the beginning to (length-amount)
             
-            // Step 1: Validate inputs
+            // Step 1: Check for invalid inputs or no-op cases
             if (data == null || data.Count <= 1)
             {
                 // No rotation needed for empty list, single-element list, or null list
                 return;
             }
             
-            // Step 2 & 3: Handle edge cases and simplify amount if needed
-            // Ensure amount is positive and less than list length
-            amount = amount % data.Count;
-            
-            // No rotation needed if amount is 0
-            if (amount == 0)
+            // Per the assignment, amount will be in range [1, data.Count]
+            // Let's make sure it's within that range by taking modulo if needed
+            if (amount > data.Count)
             {
-                return;
+                amount = amount % data.Count;
+                
+                // If amount becomes 0 after modulo, it means we're rotating by the full length
+                // which is equivalent to rotating by data.Count
+                if (amount == 0)
+                {
+                    amount = data.Count;
+                }
             }
             
-            // Step 4: Calculate the split point and get the two parts
-            int splitIndex = data.Count - amount;
+            // Step 2: Create a temporary copy of the list to work with
+            List<T> tempList = new List<T>(data);
             
-            // Get elements that will move from end to beginning
-            List<T> endPart = data.GetRange(splitIndex, amount);
-            
-            // Get elements that will shift to the right
-            List<T> beginPart = data.GetRange(0, splitIndex);
-            
-            // Step 5 & 6: Clear the original list and add the parts in the correct order
+            // Step 3: Clear the original list to prepare for adding elements in rotated order
             data.Clear();
-            data.AddRange(endPart);  // Add the end part first (now at the beginning)
-            data.AddRange(beginPart); // Add the begin part after
+            
+            // Step 4: Add elements back in rotated order
+            // First, add elements from (length-amount) to the end of the original list
+            for (int i = tempList.Count - amount; i < tempList.Count; i++)
+            {
+                data.Add(tempList[i]);
+            }
+            
+            // Then, add elements from the beginning to (length-amount) of the original list
+            for (int i = 0; i < tempList.Count - amount; i++)
+            {
+                data.Add(tempList[i]);
+            }
         }
     }
 }

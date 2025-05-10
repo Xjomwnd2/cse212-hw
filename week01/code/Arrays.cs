@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics; // Added for potential debugging
+using System.Diagnostics;
 
 namespace DynamicArrays
 {
@@ -27,7 +27,6 @@ namespace DynamicArrays
             for (int i = 0; i < count; i++)
             {
                 // Calculate the multiple (number * (i+1)) and store it in the array
-                // We use (i+1) because we want multiples starting from 1x, 2x, 3x, etc.
                 multiples[i] = number * (i + 1);
             }
             
@@ -44,52 +43,28 @@ namespace DynamicArrays
         public static void RotateListRight<T>(List<T> data, int amount)
         {
             // PLAN:
-            // 1. Check for null or empty list - return if no action needed
-            // 2. Create a temporary copy of the list to avoid issues with in-place operations
-            // 3. Clear the original list
-            // 4. Add elements back in the rotated order:
-            //    - Start with elements from (length-amount) to the end
-            //    - Then add elements from the beginning to (length-amount)
+            // 1. Handle edge cases
+            // 2. Ensure amount is within bounds
+            // 3. Use a simple algorithm that leverages GetRange and Clear/AddRange
             
-            // Step 1: Check for invalid inputs or no-op cases
+            // Step 1: Handle edge cases
             if (data == null || data.Count <= 1)
             {
-                // No rotation needed for empty list, single-element list, or null list
-                return;
+                return;  // Nothing to rotate
             }
             
-            // Per the assignment, amount will be in range [1, data.Count]
-            // Let's make sure it's within that range by taking modulo if needed
-            if (amount > data.Count)
-            {
-                amount = amount % data.Count;
-                
-                // If amount becomes 0 after modulo, it means we're rotating by the full length
-                // which is equivalent to rotating by data.Count
-                if (amount == 0)
-                {
-                    amount = data.Count;
-                }
-            }
+            // Step 2: Ensure amount is within bounds
+            // According to the assignment, amount is in range [1, data.Count]
             
-            // Step 2: Create a temporary copy of the list to work with
-            List<T> tempList = new List<T>(data);
+            // Step 3: Perform rotation
+            // For a right rotation by k, take the last k elements and move them to the front
+            int k = amount;
+            List<T> rotatedPart = data.GetRange(data.Count - k, k);
+            List<T> remainingPart = data.GetRange(0, data.Count - k);
             
-            // Step 3: Clear the original list to prepare for adding elements in rotated order
             data.Clear();
-            
-            // Step 4: Add elements back in rotated order
-            // First, add elements from (length-amount) to the end of the original list
-            for (int i = tempList.Count - amount; i < tempList.Count; i++)
-            {
-                data.Add(tempList[i]);
-            }
-            
-            // Then, add elements from the beginning to (length-amount) of the original list
-            for (int i = 0; i < tempList.Count - amount; i++)
-            {
-                data.Add(tempList[i]);
-            }
+            data.AddRange(rotatedPart);
+            data.AddRange(remainingPart);
         }
     }
 }

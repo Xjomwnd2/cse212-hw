@@ -1,70 +1,43 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
-namespace DynamicArrays
+public class Arrays
 {
-    public class Arrays
+    // Part 1: MultiplesOf Function
+    // This function takes a starting number and a count of how many multiples to generate.
+    // For example, MultiplesOf(3, 5) returns [3, 6, 9, 12, 15].
+
+    public static double[] MultiplesOf(double start, int count)
     {
-        /// <summary>
-        /// Creates and returns an array of multiples of a number.
-        /// </summary>
-        /// <param name="number">The number to find multiples of</param>
-        /// <param name="count">The number of multiples to generate</param>
-        /// <returns>An array containing the multiples of number</returns>
-        public static double[] MultiplesOf(double number, int count)
+        // Step 1: Create a new array with the size equal to count
+        double[] result = new double[count];
+
+        // Step 2: Use a loop to fill in the array with multiples of the start number
+        for (int i = 0; i < count; i++)
         {
-            // PLAN:
-            // 1. Create a new array to store the multiples - size will be count
-            // 2. Loop from 1 to count
-            // 3. For each iteration i, calculate number * i and store in array
-            // 4. Return the array of multiples
-            
-            // Step 1: Create a new array of size count to store the multiples
-            double[] multiples = new double[count];
-            
-            // Step 2 & 3: Loop through and calculate each multiple
-            for (int i = 0; i < count; i++)
-            {
-                // Calculate the multiple (number * (i+1)) and store it in the array
-                multiples[i] = number * (i + 1);
-            }
-            
-            // Step 4: Return the array with all multiples
-            return multiples;
+            result[i] = start * (i + 1);
         }
 
-        /// <summary>
-        /// Rotates a list to the right by a specified amount.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the list</typeparam>
-        /// <param name="data">The list to rotate</param>
-        /// <param name="amount">The number of positions to rotate right</param>
-        public static void RotateListRight<T>(List<T> data, int amount)
-        {
-            // PLAN:
-            // 1. Handle edge cases
-            // 2. Ensure amount is within bounds
-            // 3. Use a simple algorithm that leverages GetRange and Clear/AddRange
-            
-            // Step 1: Handle edge cases
-            if (data == null || data.Count <= 1)
-            {
-                return;  // Nothing to rotate
-            }
-            
-            // Step 2: Ensure amount is within bounds
-            // According to the assignment, amount is in range [1, data.Count]
-            
-            // Step 3: Perform rotation
-            // For a right rotation by k, take the last k elements and move them to the front
-            int k = amount;
-            List<T> rotatedPart = data.GetRange(data.Count - k, k);
-            List<T> remainingPart = data.GetRange(0, data.Count - k);
-            
-            data.Clear();
-            data.AddRange(rotatedPart);
-            data.AddRange(remainingPart);
-        }
+        // Step 3: Return the result array
+        return result;
+    }
+
+    // Part 2: RotateListRight Function
+    // This function takes a list of integers and rotates the list to the right by a given amount.
+    // Example: RotateListRight([1,2,3,4,5,6,7,8,9], 5) returns [5,6,7,8,9,1,2,3,4]
+
+    public static void RotateListRight(List<int> data, int amount)
+    {
+        // Step 1: Calculate how many elements will be rotated from the end to the beginning
+        int cutIndex = data.Count - amount;
+
+        // Step 2: Create two slices: tail and head
+        List<int> tail = data.GetRange(cutIndex, amount);
+        List<int> head = data.GetRange(0, cutIndex);
+
+        // Step 3: Clear the original list and add the new order
+        data.Clear();
+        data.AddRange(tail);
+        data.AddRange(head);
     }
 }

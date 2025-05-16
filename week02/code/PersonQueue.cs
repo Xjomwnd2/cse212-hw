@@ -1,71 +1,35 @@
-using System;
-using System.Collections.Generic;
-
-// Fixed implementation that passes all tests
-public class PriorityQueue
+/// <summary>
+/// A basic implementation of a Queue
+/// </summary>
+public class PersonQueue
 {
-    private class QueueItem
+    private readonly List<Person> _queue = new();
+
+    public int Length => _queue.Count;
+
+    /// <summary>
+    /// Add a person to the queue
+    /// </summary>
+    /// <param name="person">The person to add</param>
+    public void Enqueue(Person person)
     {
-        public string Value { get; set; }
-        public int Priority { get; set; }
-        
-        public QueueItem(string value, int priority)
-        {
-            Value = value;
-            Priority = priority;
-        }
+        _queue.Insert(0, person);
     }
-    
-    private List<QueueItem> items;
-    
-    public PriorityQueue()
+
+    public Person Dequeue()
     {
-        items = new List<QueueItem>();
+        var person = _queue[0];
+        _queue.RemoveAt(0);
+        return person;
     }
-    
-    public void Enqueue(string value, int priority)
+
+    public bool IsEmpty()
     {
-        // Add to the back of the queue
-        items.Add(new QueueItem(value, priority));
+        return Length == 0;
     }
-    
-    public string Dequeue()
+
+    public override string ToString()
     {
-        // FIX 1: Check if queue is empty and throw exception if it is
-        if (items.Count == 0)
-        {
-            throw new InvalidOperationException("Cannot dequeue from an empty queue.");
-        }
-        
-        // FIX 2: Find the highest priority
-        int highestPriority = int.MinValue;
-        foreach (var item in items)
-        {
-            if (item.Priority > highestPriority)
-            {
-                highestPriority = item.Priority;
-            }
-        }
-        
-        // FIX 3: Find the first item with the highest priority (FIFO for same priority)
-        int indexToRemove = -1;
-        for (int i = 0; i < items.Count; i++)
-        {
-            if (items[i].Priority == highestPriority)
-            {
-                indexToRemove = i;
-                break;
-            }
-        }
-        
-        // Remove and return the value
-        string value = items[indexToRemove].Value;
-        items.RemoveAt(indexToRemove);
-        return value;
-    }
-    
-    public int Count
-    {
-        get { return items.Count; }
+        return $"[{string.Join(", ", _queue)}]";
     }
 }

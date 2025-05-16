@@ -1,54 +1,35 @@
-using System;
-using System.Collections.Generic;
-
-public class PriorityQueue
+/// <summary>
+/// A basic implementation of a Queue
+/// </summary>
+public class PersonQueue
 {
-    private class QueueItem
-    {
-        public string Value { get; }
-        public int Priority { get; }
-        public int Order { get; }
+    private readonly List<Person> _queue = new();
 
-        public QueueItem(string value, int priority, int order)
-        {
-            Value = value;
-            Priority = priority;
-            Order = order;
-        }
+    public int Length => _queue.Count;
+
+    /// <summary>
+    /// Add a person to the queue
+    /// </summary>
+    /// <param name="person">The person to add</param>
+    public void Enqueue(Person person)
+    {
+        _queue.Insert(0, person);
     }
 
-    private List<QueueItem> items;
-    private int orderCounter;
-
-    public PriorityQueue()
+    public Person Dequeue()
     {
-        items = new List<QueueItem>();
-        orderCounter = 0;
+        var person = _queue[0];
+        _queue.RemoveAt(0);
+        return person;
     }
 
-    public void Enqueue(string value, int priority)
+    public bool IsEmpty()
     {
-        items.Add(new QueueItem(value, priority, orderCounter++));
+        return Length == 0;
     }
 
-    public string Dequeue()
+    public override string ToString()
     {
-        if (items.Count == 0)
-        {
-            throw new InvalidOperationException("Queue is empty.");
-        }
-
-        QueueItem highestPriorityItem = items[0];
-        foreach (var item in items)
-        {
-            if (item.Priority > highestPriorityItem.Priority ||
-               (item.Priority == highestPriorityItem.Priority && item.Order < highestPriorityItem.Order))
-            {
-                highestPriorityItem = item;
-            }
-        }
-
-        items.Remove(highestPriorityItem);
-        return highestPriorityItem.Value;
+        return $"[{string.Join(", ", _queue)}]";
     }
 }

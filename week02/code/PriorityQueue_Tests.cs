@@ -1,29 +1,47 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-// TODO Problem 2 - Write and run test cases and fix the code to match requirements.
+using System;
 
 [TestClass]
-public class PriorityQueueTests
+public class PriorityQueue_Tests
 {
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
-    // Defect(s) Found: 
-    public void TestPriorityQueue_1()
+    public void Enqueue_AddsItemCorrectly()
     {
-        var priorityQueue = new PriorityQueue();
-        Assert.Fail("Implement the test case and then remove this.");
+        // Summary: Enqueue adds item; Dequeue should return that item
+        var queue = new PriorityQueue();
+        queue.Enqueue("A", 1);
+        Assert.AreEqual("A", queue.Dequeue());
     }
 
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
-    // Defect(s) Found: 
-    public void TestPriorityQueue_2()
+    public void Dequeue_RemovesHighestPriority()
     {
-        var priorityQueue = new PriorityQueue();
-        Assert.Fail("Implement the test case and then remove this.");
+        // Summary: Verifies highest priority item is dequeued
+        var queue = new PriorityQueue();
+        queue.Enqueue("Low", 1);
+        queue.Enqueue("High", 5);
+        queue.Enqueue("Medium", 3);
+
+        var result = queue.Dequeue();
+        Assert.AreEqual("High", result);
     }
 
-    // Add more test cases as needed below.
+    [TestMethod]
+    public void Dequeue_RemovesFirstInWithSamePriority()
+    {
+        // Summary: Ensures FIFO is respected for items with same priority
+        var queue = new PriorityQueue();
+        queue.Enqueue("FirstHigh", 5);
+        queue.Enqueue("SecondHigh", 5);
+        Assert.AreEqual("FirstHigh", queue.Dequeue());
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException))]
+    public void Dequeue_ThrowsOnEmptyQueue()
+    {
+        // Summary: Verifies Dequeue throws exception on empty queue
+        var queue = new PriorityQueue();
+        queue.Dequeue(); // should throw
+    }
 }

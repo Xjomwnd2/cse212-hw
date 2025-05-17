@@ -38,17 +38,37 @@ public class PriorityQueue
             throw new InvalidOperationException("Queue is empty.");
         }
 
-        QueueItem highestPriorityItem = items[0];
-        foreach (var item in items)
+        // Initialize with the first item
+        int highestPriorityIndex = 0;
+        int highestPriority = items[0].Priority;
+        int lowestOrder = items[0].Order;
+
+        // Find the item with highest priority and, if tied, the lowest order (FIFO)
+        for (int i = 1; i < items.Count; i++)
         {
-            if (item.Priority > highestPriorityItem.Priority ||
-               (item.Priority == highestPriorityItem.Priority && item.Order < highestPriorityItem.Order))
+            QueueItem item = items[i];
+            
+            // If this item has higher priority, it becomes the new candidate
+            if (item.Priority > highestPriority)
             {
-                highestPriorityItem = item;
+                highestPriorityIndex = i;
+                highestPriority = item.Priority;
+                lowestOrder = item.Order;
+            }
+            // If this item has the same priority but was added earlier (lower order)
+            else if (item.Priority == highestPriority && item.Order < lowestOrder)
+            {
+                highestPriorityIndex = i;
+                lowestOrder = item.Order;
             }
         }
 
-        items.Remove(highestPriorityItem);
+        // Get the item to return
+        QueueItem highestPriorityItem = items[highestPriorityIndex];
+        
+        // Remove it from the list
+        items.RemoveAt(highestPriorityIndex);
+        
         return highestPriorityItem.Value;
     }
 }

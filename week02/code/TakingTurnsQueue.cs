@@ -40,18 +40,25 @@ public class TakingTurnsQueue
         else
         {
             Person person = _people.Dequeue();
-            if (person.Turns > 1)
+
+            // If turns is 0 or less, it means infinite turns
+            if (person.Turns <= 0)
+            {
+                // Re-add with same turns value (keep it infinite)
+                _people.Enqueue(person);
+            }
+            // If turns is greater than 0, decrement and re-add if still has turns
+            else if (person.Turns > 0)
             {
                 person.Turns -= 1;
-                _people.Enqueue(person);
+                // Re-add if they still have turns left (including if now at 0)
+                if (person.Turns >= 0)
+                {
+                    _people.Enqueue(person);
+                }
             }
 
             return person;
         }
-    }
-
-    public override string ToString()
-    {
-        return _people.ToString();
     }
 }

@@ -34,7 +34,11 @@ public class Translator
     /// <returns>The translated word or "???" if no translation is available</returns>
     public string Translate(string fromWord)
     {
-        // ADD YOUR CODE HERE
-        return "";
+         // Check if the word exists in the dictionary
+        if (_words.ContainsKey(fromWord))
+        {
+            return _words[fromWord];
+        }
+        return "???";
     }
 }

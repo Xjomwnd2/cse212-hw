@@ -25,6 +25,7 @@ public class Translator
     public void AddWord(string fromWord, string toWord)
     {
         // ADD YOUR CODE HERE
+        if (_translations.ContainsKey(word))
     }
 
     /// <summary>

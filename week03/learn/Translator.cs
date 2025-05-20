@@ -25,6 +25,8 @@ public class Translator
     public void AddWord(string fromWord, string toWord)
     {
         // ADD YOUR CODE HERE
+        // Store the translation in the dictionary
+        _words[fromWord] = toWord;
     }
 
     /// <summary>

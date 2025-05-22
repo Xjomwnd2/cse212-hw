@@ -1,73 +1,62 @@
-﻿/*
- * CSE 212 Lesson 6C
- *
- * This code will analyze the NBA basketball data and create a table showing
- * the players with the top 10 career points.
- *
- * Note about columns:
- * - Player ID is in column 0
- * - Points is in column 8
- *
- * Each row represents the player's stats for a single season with a single team.
- */
-
-using Microsoft.VisualBasic.FileIO;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-public class Basketball
+public static class Basketball
 {
     public static void Run()
     {
-        var players = new Dictionary<string, int>();
-
-        using var reader = new TextFieldParser("basketball.csv");
-        reader.TextFieldType = FieldType.Delimited;
-        reader.SetDelimiters(",");
-        reader.ReadFields(); // ignore header row
-        while (!reader.EndOfData)
+        Console.WriteLine("Basketball team statistics using sets...");
+        
+        // Sample data for demonstration (no external file needed)
+        HashSet<string> team1Players = new HashSet<string> { "Alice", "Bob", "Charlie", "David", "Eve" };
+        HashSet<string> team2Players = new HashSet<string> { "Bob", "Frank", "Grace", "David", "Helen" };
+        HashSet<string> team3Players = new HashSet<string> { "Alice", "Grace", "Ivan", "Jack", "Eve" };
+        
+        Console.WriteLine($"Team 1 players: {string.Join(", ", team1Players)}");
+        Console.WriteLine($"Team 2 players: {string.Join(", ", team2Players)}");
+        Console.WriteLine($"Team 3 players: {string.Join(", ", team3Players)}");
+        Console.WriteLine();
+        
+        // Demonstrate set operations
+        
+        // Find players who played in both Team 1 and Team 2
+        HashSet<string> playersInBothTeams = new HashSet<string>(team1Players);
+        playersInBothTeams.IntersectWith(team2Players);
+        Console.WriteLine($"Players in both Team 1 and Team 2: {string.Join(", ", playersInBothTeams)}");
+        
+        // Find all unique players across all teams
+        HashSet<string> allPlayers = new HashSet<string>(team1Players);
+        allPlayers.UnionWith(team2Players);
+        allPlayers.UnionWith(team3Players);
+        Console.WriteLine($"All unique players: {string.Join(", ", allPlayers)}");
+        
+        // Find players only in Team 1
+        HashSet<string> onlyTeam1 = new HashSet<string>(team1Players);
+        onlyTeam1.ExceptWith(team2Players);
+        onlyTeam1.ExceptWith(team3Players);
+        Console.WriteLine($"Players only in Team 1: {string.Join(", ", onlyTeam1)}");
+        
+        // Find players who appear in at least 2 teams
+        HashSet<string> multiTeamPlayers = new HashSet<string>();
+        
+        foreach (string player in allPlayers)
         {
-            var fields = reader.ReadFields()!;
-            var playerId = fields[0];
-            if (int.TryParse(fields[8], out int points))
+            int teamCount = 0;
+            if (team1Players.Contains(player)) teamCount++;
+            if (team2Players.Contains(player)) teamCount++;
+            if (team3Players.Contains(player)) teamCount++;
+            
+            if (teamCount >= 2)
             {
-                if (players.ContainsKey(playerId))
-                {
-                    players[playerId] += points;
-                }
-                else
-                {
-                    players[playerId] = points;
-                }
-            }
-            else
-            {
-                Console.WriteLine($"Warning: Could not parse points for player ID: {playerId}, value: {fields[8]}");
+                multiTeamPlayers.Add(player);
             }
         }
-
-        // Convert the dictionary to a list of key-value pairs so we can sort it
-        var sortedPlayers = players.OrderByDescending(pair => pair.Value).ToList();
-
-        Console.WriteLine("Top 10 Players by Total Points:");
-        Console.WriteLine("----------------------------------");
-        Console.WriteLine("Rank | Player ID | Total Points");
-        Console.WriteLine("-----|-----------|--------------");
-
-        int count = 0;
-        foreach (var player in sortedPlayers)
-        {
-            if (count < 10)
-            {
-                Console.WriteLine($"{count + 1,-4} | {player.Key,-9} | {player.Value,-12}");
-                count++;
-            }
-            else
-            {
-                break;
-            }
-        }
-        Console.WriteLine("----------------------------------");
+        
+        Console.WriteLine($"Players on multiple teams: {string.Join(", ", multiTeamPlayers)}");
+        
+        // Demonstrate symmetric difference (players in Team 1 or Team 2, but not both)
+        HashSet<string> symmetricDiff = new HashSet<string>(team1Players);
+        symmetricDiff.SymmetricExceptWith(team2Players);
+        Console.WriteLine($"Players in Team 1 OR Team 2 (but not both): {string.Join(", ", symmetricDiff)}");
     }
 }

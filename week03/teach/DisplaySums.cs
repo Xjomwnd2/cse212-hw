@@ -5,23 +5,27 @@ public class DisplaySums
 {
     public static void DisplaySumPairs(List<int> numbers)
     {
-        // Create a set to store numbers we've seen so far
-        HashSet<int> seenNumbers = new HashSet<int>();
-        
-        // Loop through each number in the list
-        foreach (var number in numbers)
+        HashSet<int> seen = new HashSet<int>();
+        HashSet<string> printedPairs = new HashSet<string>(); // To prevent duplicates
+
+        foreach (int number in numbers)
         {
-            // Calculate the complement of the current number
             int complement = 10 - number;
-            
-            // If the complement is already in the set, we found a pair
-            if (seenNumbers.Contains(complement))
+
+            if (seen.Contains(complement))
             {
-                Console.WriteLine($"Pair found: ({complement}, {number})");
+                int min = Math.Min(number, complement);
+                int max = Math.Max(number, complement);
+                string pairKey = $"{min},{max}";
+
+                if (!printedPairs.Contains(pairKey))
+                {
+                    Console.WriteLine($"Pair found: ({min}, {max})");
+                    printedPairs.Add(pairKey);
+                }
             }
-            
-            // Add the current number to the set
-            seenNumbers.Add(number);
+
+            seen.Add(number);
         }
     }
 }

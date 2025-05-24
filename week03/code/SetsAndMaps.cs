@@ -22,7 +22,7 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-         // Convert array to HashSet for O(1) lookup
+        // Convert array to HashSet for O(1) lookup
         var wordSet = new HashSet<string>(words);
         var processed = new HashSet<string>();
         var result = new List<string>();
@@ -50,7 +50,7 @@ public static class SetsAndMaps
 
         return result.ToArray();
     }
-    }
+        
 
     /// <summary>
     /// Read a census file and summarize the degrees (education)

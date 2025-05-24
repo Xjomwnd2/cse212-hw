@@ -111,9 +111,47 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+       // Remove spaces and convert to lowercase
+        word1 = word1.Replace(" ", "").ToLower();
+        word2 = word2.Replace(" ", "").ToLower();
+        
+        // If lengths are different, they can't be anagrams
+        if (word1.Length != word2.Length)
+            return false;
+        
+        // Use dictionary to count character frequencies
+        var charCount = new Dictionary<char, int>();
+        
+        // Count characters in first word
+        foreach (char c in word1)
+        {
+            if (charCount.ContainsKey(c))
+                charCount[c]++;
+            else
+                charCount[c] = 1;
+        }
+        
+        // Subtract character counts using second word
+        foreach (char c in word2)
+        {
+            if (!charCount.ContainsKey(c))
+                return false; // Character not found in first word
+            
+            charCount[c]--;
+            
+            if (charCount[c] < 0)
+                return false; // More occurrences in second word
+        }
+        
+        // Check if all counts are zero
+        foreach (var count in charCount.Values)
+        {
+            if (count != 0)
+                return false;
+        }
+        
+        return true;
     }
-
     /// <summary>
     /// This function will read JSON (Javascript Object Notation) data from the 
     /// United States Geological Service (USGS) consisting of earthquake data.

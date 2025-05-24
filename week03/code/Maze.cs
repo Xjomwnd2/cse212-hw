@@ -117,6 +117,25 @@ public class Maze
     public void MoveDown()
     {
         // FILL IN CODE
+         var currentPosition = (_currX, _currY);
+        
+        // Check if current position exists in maze
+        if (!_mazeMap.ContainsKey(currentPosition))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+        
+        // Get the directions array [left, right, up, down]
+        var directions = _mazeMap[currentPosition];
+        
+        // Check if down movement is allowed (index 3)
+        if (!directions[3])
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+        
+        // Move down (increase y coordinate - assuming standard coordinate system)
+        _currY++;
     }
 
     public string GetStatus()

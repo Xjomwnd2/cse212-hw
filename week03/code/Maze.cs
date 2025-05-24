@@ -61,6 +61,25 @@ public class Maze
     public void MoveRight()
     {
         // FILL IN CODE
+        var currentPosition = (_currX, _currY);
+        
+        // Check if current position exists in maze
+        if (!_mazeMap.ContainsKey(currentPosition))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+        
+        // Get the directions array [left, right, up, down]
+        var directions = _mazeMap[currentPosition];
+        
+        // Check if right movement is allowed (index 1)
+        if (!directions[1])
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+        
+        // Move right (increase x coordinate)
+        _currX++;
     }
 
     /// <summary>

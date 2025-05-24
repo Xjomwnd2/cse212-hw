@@ -86,7 +86,15 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        
+        if (word1.Length != word2.Length) return false;
+
+        var arr1 = word1.ToLower().ToCharArray();
+        var arr2 = word2.ToLower().ToCharArray();
+        Array.Sort(arr1);
+        Array.Sort(arr2);
+
+        return arr1.SequenceEqual(arr2);
     }
 
     /// <summary>

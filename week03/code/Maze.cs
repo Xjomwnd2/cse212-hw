@@ -33,6 +33,25 @@ public class Maze
     public void MoveLeft()
     {
         // FILL IN CODE
+        var currentPosition = (_currX, _currY);
+        
+        // Check if current position exists in maze
+        if (!_mazeMap.ContainsKey(currentPosition))
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+        
+        // Get the directions array [left, right, up, down]
+        var directions = _mazeMap[currentPosition];
+        
+        // Check if left movement is allowed (index 0)
+        if (!directions[0])
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+        
+        // Move left (decrease x coordinate)
+        _currX--;
     }
 
     /// <summary>

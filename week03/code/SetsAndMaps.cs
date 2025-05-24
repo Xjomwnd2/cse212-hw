@@ -96,11 +96,50 @@ public static class SetsAndMaps
 
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
 
-        // TODO Problem 5:
-        // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 
-        // on those classes so that the call to Deserialize above works properly.
-        // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
-        // 3. Return an array of these string descriptions.
-        return [];
+        var results = new List<string>();
+        
+        if (featureCollection?.Features != null)
+        {
+            foreach (var feature in featureCollection.Features)
+            {
+                if (feature?.Properties != null)
+                {
+                    var place = feature.Properties.Place ?? "Unknown Location";
+                    var magnitude = feature.Properties.Mag ?? 0.0;
+                    
+                    results.Add($"{place} - Mag {magnitude}");
+                }
+            }
+        }
+        
+        return results.ToArray();
     }
+}
+// Classes needed for JSON deserialization of earthquake data
+public class FeatureCollection
+{
+    public string? Type { get; set; }
+    public Feature[]? Features { get; set; }
+}
+
+public class Feature
+{
+    public string? Type { get; set; }
+    public Properties? Properties { get; set; }
+    public Geometry? Geometry { get; set; }
+}
+
+public class Properties
+{
+    public double? Mag { get; set; }
+    public string? Place { get; set; }
+    public long? Time { get; set; }
+    public string? Title { get; set; }
+    public string? Url { get; set; }
+}
+
+public class Geometry
+{
+    public string? Type { get; set; }
+    public double[]? Coordinates { get; set; }
 }

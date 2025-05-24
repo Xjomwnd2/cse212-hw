@@ -69,6 +69,24 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+        // Check if we have enough fields (at least 4 columns)
+            if (fields.Length >= 4)
+            {
+                var degree = fields[3].Trim(); // 4th column (index 3), trim whitespace
+                
+                // Skip empty degrees
+                if (!string.IsNullOrWhiteSpace(degree))
+                {
+                    if (degrees.ContainsKey(degree))
+                    {
+                        degrees[degree]++;
+                    }
+                    else
+                    {
+                        degrees[degree] = 1;
+                    }
+                }
+            }
         }
 
         return degrees;

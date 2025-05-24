@@ -41,7 +41,7 @@ public static class SetsAndMaps
                 seen.Add(word);
             }
         }
-        return [];
+        return result.ToArray();
     }
 
     /// <summary>

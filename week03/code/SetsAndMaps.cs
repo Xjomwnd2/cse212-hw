@@ -22,7 +22,34 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+         // Convert array to HashSet for O(1) lookup
+        var wordSet = new HashSet<string>(words);
+        var processed = new HashSet<string>();
+        var result = new List<string>();
+
+        foreach (var word in words)
+        {
+            // Skip if already processed or if it's a palindrome (same letters)
+            if (processed.Contains(word) || word[0] == word[1])
+                continue;
+
+            // Create the reverse of the word
+            var reversed = $"{word[1]}{word[0]}";
+
+            // Check if the reverse exists in our set
+            if (wordSet.Contains(reversed))
+            {
+                // Mark both words as processed to avoid duplicates
+                processed.Add(word);
+                processed.Add(reversed);
+                
+                // Add the pair to results
+                result.Add($"{word} & {reversed}");
+            }
+        }
+
+        return result.ToArray();
+    }
     }
 
     /// <summary>

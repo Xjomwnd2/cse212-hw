@@ -21,7 +21,7 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
+        //Problem 1 - MY CODE HERE
         // Convert array to HashSet for O(1) lookup
         var wordSet = new HashSet<string>(words);
         var processed = new HashSet<string>();
@@ -69,7 +69,7 @@ public static class SetsAndMaps
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            // Problem 2 - MY CODE HERE
              // Check if we have enough fields (at least 4 columns)
             if (fields.Length >= 4)
             {
@@ -112,7 +112,7 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
+        // Problem 3 - MY CODE HERE
          // Remove spaces and convert to lowercase
         word1 = word1.Replace(" ", "").ToLower();
         word2 = word2.Replace(" ", "").ToLower();

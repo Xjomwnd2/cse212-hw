@@ -22,26 +22,33 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        var seen = new HashSet<string>();
+        // Convert array to HashSet for O(1) lookup
+        var wordSet = new HashSet<string>(words);
+        var processed = new HashSet<string>();
         var result = new List<string>();
 
         foreach (var word in words)
         {
-            if (word.Length != 2 || word[0] == word[1])
-                continue; // skip words like "aa", "bb", etc.
+            // Skip if already processed or if it's a palindrome (same letters)
+            if (processed.Contains(word) || word[0] == word[1])
+                continue;
 
+            // Create the reverse of the word
             var reversed = $"{word[1]}{word[0]}";
 
-            if (seen.Contains(reversed))
+            // Check if the reverse exists in our set
+            if (wordSet.Contains(reversed))
             {
-                result.Add($"{reversed} & {word}");
-            }
-            else
-            {
-                seen.Add(word);
+                // Mark both words as processed to avoid duplicates
+                processed.Add(word);
+                processed.Add(reversed);
+                
+                // Add the pair to results
+                result.Add($"{word} & {reversed}");
             }
         }
-        return [];
+
+        return result.ToArray();
     }
 
     /// <summary>
@@ -86,15 +93,7 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        
-        if (word1.Length != word2.Length) return false;
-
-        var arr1 = word1.ToLower().ToCharArray();
-        var arr2 = word2.ToLower().ToCharArray();
-        Array.Sort(arr1);
-        Array.Sort(arr2);
-
-        return arr1.SequenceEqual(arr2);
+        return false;
     }
 
     /// <summary>

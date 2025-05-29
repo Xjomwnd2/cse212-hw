@@ -179,6 +179,18 @@ public class LinkedList : IEnumerable<int>
     public void Replace(int oldValue, int newValue)
     {
         // TODO Problem 4
+        // My code 4
+        // Search through the entire list starting at the head
+        Node? curr = _head;
+        while (curr is not null)
+        {
+            if (curr.Data == oldValue)
+            {
+                curr.Data = newValue; // Replace the value
+            }
+            
+            curr = curr.Next; // Go to the next node to continue searching
+        }
     }
 
     /// <summary>

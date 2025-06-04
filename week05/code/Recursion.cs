@@ -110,7 +110,8 @@ public static class Recursion
             return 4;
 
         // TODO Start Problem 3
-
+        if (remember.ContainsKey(s))
+            return remember[s];
         // Solve using recursion
         decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
         return ways;

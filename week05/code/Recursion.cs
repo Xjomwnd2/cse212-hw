@@ -160,6 +160,23 @@ private static void GeneratePermutations(char[] letters, int size, string curren
     public static void WildcardBinary(string pattern, List<string> results)
     {
         // TODO Start Problem 4
+        // MY Code
+        // Find the first wildcard
+    int wildcardIndex = pattern.IndexOf('*');
+    
+    // Base case: no wildcards found
+    if (wildcardIndex == -1)
+    {
+        results.Add(pattern);
+        return;
+    }
+    
+    // Recursive case: replace the wildcard with 0 and 1
+    string pattern0 = pattern[..wildcardIndex] + "0" + pattern[(wildcardIndex + 1)..];
+    string pattern1 = pattern[..wildcardIndex] + "1" + pattern[(wildcardIndex + 1)..];
+    
+    WildcardBinary(pattern0, results);
+    WildcardBinary(pattern1, results);
     }
 
     /// <summary>

@@ -195,6 +195,59 @@ private static void GeneratePermutations(char[] letters, int size, string curren
 
         // TODO Start Problem 5
         // ADD CODE HERE
+        // MY Code
+        // Recursive case: try all four directions
+    int[] dx = {0, 1, 0, -1}; // right, down, left, up
+    int[] dy = {1, 0, -1, 0};
+    
+    for (int i = 0; i < 4; i++)
+    {
+        int newX = x + dx[i];
+        int newY = y + dy[i];
+        
+        if (IsValidMove(maze, mazeSize, newX, newY, currPath))
+        {
+            SolveMaze(maze, mazeSize, newX, newY, currPath, results);
+        }
+    }
+    
+    // Backtrack: remove current position from path
+    currPath.RemoveAt(currPath.Count - 1);
+}
+
+// Helper functions for maze (these would be provided in your template)
+private static bool IsEnd(int[] maze, int mazeSize, int x, int y)
+{
+    // Check if position is within bounds and is the end (value 2)
+    if (x < 0 || x >= mazeSize || y < 0 || y >= mazeSize)
+        return false;
+    return maze[x * mazeSize + y] == 2;
+}
+
+private static bool IsValidMove(int[] maze, int mazeSize, int x, int y, List<(int, int)> currPath)
+{
+    // Check bounds
+    if (x < 0 || x >= mazeSize || y < 0 || y >= mazeSize)
+        return false;
+    
+    // Check if it's a wall (0)
+    if (maze[x * mazeSize + y] == 0)
+        return false;
+    
+    // Check if already visited in current path
+    if (currPath.Contains((x, y)))
+        return false;
+    
+    return true;
+}
+
+// Extension method for converting path to string (would be provided in template)
+public static class PathExtensions
+{
+    public static string AsString(this List<(int, int)> path)
+    {
+        return string.Join(" -> ", path.Select(p => $"({p.Item1},{p.Item2})"));
+    }
 
         // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
     }

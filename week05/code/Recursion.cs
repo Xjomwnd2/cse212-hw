@@ -130,10 +130,18 @@ private static void GeneratePermutations(char[] letters, int size, string curren
             return 4;
 
         // TODO Start Problem 3
-
-        // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
-        return ways;
+        // MY Code
+        // Check memoization
+    if (remember.ContainsKey(s))
+        return remember[s];
+    
+    // Recursive case with memoization
+    int result = CountWaysToClimb(s - 1, remember) + 
+                 CountWaysToClimb(s - 2, remember) + 
+                 CountWaysToClimb(s - 3, remember);
+    
+    remember[s] = result;
+    return result;
     }
 
     /// <summary>

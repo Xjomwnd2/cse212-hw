@@ -15,7 +15,13 @@ public static class Recursion
     public static int SumSquaresRecursive(int n)
     {
         // TODO Start Problem 1
+        // MY Code
+        // Base case: if n <= 0, return 0
+    if (n <= 0)
         return 0;
+    
+    // Recursive case: n^2 + sum of squares from 1 to (n-1)
+    return n * n + SumSquaresRecursive(n - 1);
     }
 
     /// <summary>
@@ -40,6 +46,31 @@ public static class Recursion
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
         // TODO Start Problem 2
+        // MY Code
+            var results = new List<string>();
+    GeneratePermutations(letters, size, "", new bool[letters.Length], results);
+    return results.ToArray();
+}
+
+private static void GeneratePermutations(char[] letters, int size, string current, bool[] used, List<string> results)
+{
+    // Base case: if we've built a permutation of the desired size
+    if (current.Length == size)
+    {
+        results.Add(current);
+        return;
+    }
+    
+    // Recursive case: try each unused letter
+    for (int i = 0; i < letters.Length; i++)
+    {
+        if (!used[i])
+        {
+            used[i] = true;
+            GeneratePermutations(letters, size, current + letters[i], used, results);
+            used[i] = false; // backtrack
+        }
+    }
     }
 
     /// <summary>

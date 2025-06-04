@@ -110,6 +110,14 @@ public static class Recursion
             return 4;
 
         // TODO Start Problem 3
+        if (remember == null)
+            remember = new Dictionary<int, decimal>();
+
+        if (s < 0)
+            return 0;
+        if (s == 0)
+            return 1;
+
         if (remember.ContainsKey(s))
             return remember[s];
         // Solve using recursion

@@ -43,11 +43,13 @@ public static class Recursion
     /// You can assume that the size specified is always valid (between 1 
     /// and the length of the letters list).
     /// </summary>
+    
+    // Problem 2: Permutations Choose
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
         // TODO Start Problem 2
         // MY Code
-            var results = new List<string>();
+    var results = new List<string>();
     GeneratePermutations(letters, size, "", new bool[letters.Length], results);
     return results.ToArray();
 }

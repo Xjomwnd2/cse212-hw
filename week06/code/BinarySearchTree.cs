@@ -30,6 +30,11 @@ public class BinarySearchTree : IEnumerable<int>
     /// <returns>true if found, otherwise false</returns>
     public bool Contains(int value)
     {
+        if (value == Data)
+        return true;
+        if (value < Data)
+        return Left != null && Left.Contains(value);
+        else
         return _root != null && _root.Contains(value);
     }
 

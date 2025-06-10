@@ -30,11 +30,6 @@ public class BinarySearchTree : IEnumerable<int>
     /// <returns>true if found, otherwise false</returns>
     public bool Contains(int value)
     {
-        if (value == Data)
-        return true;
-        if (value < Data)
-        return Left != null && Left.Contains(value);
-        else
         return _root != null && _root.Contains(value);
     }
 
@@ -86,9 +81,6 @@ public class BinarySearchTree : IEnumerable<int>
     private void TraverseBackward(Node? node, List<int> values)
     {
         // TODO Problem 3
-        TraverseBackward(node.Right, values); // visit right subtree first
-        values.Add(node.Data);               // then visit the node itself
-        TraverseBackward(node.Left, values); // finally visit left subtree
     }
 
     /// <summary>

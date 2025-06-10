@@ -12,22 +12,26 @@ public class Node
     public void Insert(int value)
     {
         // TODO Start Problem 1
-
-        if (value < Data)
+ // If the value equals current node's data, don't insert (maintain uniqueness)
+        if (value == this.Data)
+        {
+            return; // Exit without inserting duplicate
+        }
+        else if (value < this.Data)
         {
             // Insert to the left
-            if (Left is null)
-                Left = new Node(value);
+            if (this.Left is null)
+                this.Left = new Node(value);
             else
-                Left.Insert(value);
+                this.Left.Insert(value);
         }
         else
         {
             // Insert to the right
-            if (Right is null)
-                Right = new Node(value);
+            if (this.Right is null)
+                this.Right = new Node(value);
             else
-                Right.Insert(value);
+                this.Right.Insert(value);
         }
     }
 
